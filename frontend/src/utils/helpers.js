@@ -6,7 +6,7 @@ class Helper {
     constructor() {}
     navigationsList() {
         let allRoutes = this.pluck(routes, 'children');
-        console.log(allRoutes);
+        return allRoutes;
     }
 
     userTypes() {

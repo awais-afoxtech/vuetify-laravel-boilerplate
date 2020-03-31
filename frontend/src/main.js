@@ -10,10 +10,10 @@ import '@/utils/mixins';
 import '@/components/global';
 import '@mdi/font/css/materialdesignicons.css';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
+
 Vue.prototype.$helpers = helpers;
 Vue.prototype.$http = http;
 Vue.config.productionTip = false;
-
 Vue.use(VueTheMask);
 
 const initVue = () => {
@@ -25,13 +25,11 @@ const initVue = () => {
   }).$mount('#app');
 };
 
-
 const init = () => {
   http.getCsrfToken();
   store.dispatch('auth/initAuth');
   initVue();
 };
-
 
 const isCordovaApp = typeof window.cordova !== 'undefined';
 
