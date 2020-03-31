@@ -2,7 +2,7 @@
 
 #### A boilerplate for Vuetify 2.2 and Laravel 7.3.
 
-- I build this to make the appliction development easy and fast.
+- I build this to make the application development easy and fast.
 
 - I build it to for myself and suddenly decided to make it opensource.
 
@@ -43,9 +43,9 @@
 
 ---
 
-- I entirely build this boilerpate for Myself and have no plane make it Opensource but suddenly I just decided to make it Opensource.
+- I entirely build this boilerplate for Myself and have no plane make it Opensource but suddenly I just decided to make it Opensource.
 
-- I am totlay open for any segestions for code improvement or any updates.
+- I am totally open for any suggestions for code improvement or any updates.
 
 - Feel free to share your ideas. Thanks
 
