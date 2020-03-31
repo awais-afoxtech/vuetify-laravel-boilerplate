@@ -10,6 +10,7 @@
 
 - Laravel 7.3 - laravel/sanctum 2.1
 - Vuetify 2.2 - axios - vue-router - vuetify-form-base - vue-the-mask - mdi/font - roboto-fontface
+- Default Database Sqlite
 
 ## Get Started
 
@@ -21,6 +22,8 @@
 
 `$ cd vuetify-laravel-boilerplate/backend`
 
+`$ cp .env.example .env`
+
 `$ composer install`
 
 `$ php artisan serve`
@@ -31,7 +34,7 @@
 
 ##### Make Frontend Ready
 
-`$ cd vuetify-laravel-boilerplate/fontend`
+`$ cd vuetify-laravel-boilerplate/frontend`
 
 `$ yarn install`
 
@@ -49,8 +52,12 @@
 
 - Feel free to share your ideas. Thanks
 
+---
+
 [Facebook](http://fb.me/awaisjameel "Facebook")
 
 ---
 
 # Now Build New Big Thing...👍👍👍
+
+---
