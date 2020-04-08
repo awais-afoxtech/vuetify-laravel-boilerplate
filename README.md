@@ -52,6 +52,14 @@
 
 ---
 
+- Admin username : admin@test.com
+- Admin password : password
+
+- Normal username : user@test.com
+- Normal password : password
+
+---
+
 - I entirely build this boilerplate for Myself and have no plane make it Opensource but suddenly I just decided to make it Opensource.
 
 - I am totally open for any suggestions for code improvement or any updates.
