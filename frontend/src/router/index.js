@@ -2,13 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from '@/router/routes'
 import store from '@/store'
+import helpers from '@/utils/helpers'
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  routes,
   base: process.env.BASE_URL,
-  mode: process.env.CORDOVA_PLATFORM ? "hash" : "history",
+  mode: "history",
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -26,17 +27,15 @@ router.beforeEach((to, from, next) => {
     var auth = nearestWithAuth.meta.auth;
 
   if (auth) {
-    if (auth.roles.includes(store.state.auth.user_role))
+    if (auth.roles.includes(eval(store.state.auth.user_role)))
       next();
     else
-      next({
-        name: auth.redirect
+      router.replace({
+        name: helpers.getRoleHome(store.state.auth.user_role)
       });
-    next();
   } else {
     next();
   }
-  // console.log(to, to.matched, auth);
 });
 
 export default router

@@ -3,7 +3,7 @@ module.exports = {
     "vuetify"
   ],
 
-  publicPath: './',
+  // publicPath: './',
 
   pluginOptions: {
     cordovaPath: 'src-cordova'

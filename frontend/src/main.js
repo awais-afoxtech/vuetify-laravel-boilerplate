@@ -11,9 +11,9 @@ import '@/components/global';
 import '@mdi/font/css/materialdesignicons.css';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 
+Vue.config.productionTip = false;
 Vue.prototype.$helpers = helpers;
 Vue.prototype.$http = http;
-Vue.config.productionTip = false;
 Vue.use(VueTheMask);
 
 const initVue = () => {
@@ -26,7 +26,7 @@ const initVue = () => {
 };
 
 const init = () => {
-  http.getCsrfToken();
+  // http.getCsrfToken();
   store.dispatch('auth/initAuth');
   initVue();
 };

@@ -4,19 +4,20 @@ import Authentication from '@/views/layouts/Authentication.vue';
 import Main from '@/views/layouts/Main.vue';
 // Auth
 import Login from '@/views/auth/Login.vue';
+import Register from '@/views/auth/Register.vue';
 // Pages
 const Home = () => import( /* webpackChunkName: "home" */ '@/views/Home.vue');
 const About = () => import( /* webpackChunkName: "about" */ '@/views/About.vue');
 import error404 from '@/views/errors/404.vue';
 
 const isNav = true;
-const routes = [
-
-    {
+const routes = [{
         path: '/',
         component: Main,
         meta: {
-            title: "Home"
+            auth: {
+                roles: [helpers.userRoles().Admin.val, helpers.userRoles().Normal.val],
+            }
         },
         children: [{
                 path: '/',
@@ -25,10 +26,6 @@ const routes = [
                 meta: {
                     isNav,
                     title: "Home Page",
-                    auth: {
-                        roles: [helpers.userTypes().Admin, helpers.userTypes().Normal],
-                        redirect: 'Login',
-                    }
                 }
             },
             {
@@ -46,20 +43,27 @@ const routes = [
         path: '/',
         component: Authentication,
         meta: {
-            title: "Authentication",
             auth: {
-                roles: [helpers.userTypes().Guest],
-                redirect: 'Home',
+                roles: [helpers.userRoles().Guest.val],
             }
         },
         children: [{
-            path: "login",
-            name: "Login",
-            component: Login,
-            meta: {
-                title: "Login",
+                path: "/login",
+                name: "Login",
+                component: Login,
+                meta: {
+                    title: "Login",
+                }
+            },
+            {
+                path: "/register",
+                name: "Register",
+                component: Register,
+                meta: {
+                    title: "Register",
+                }
             }
-        }]
+        ]
     },
     {
         path: '*',

@@ -2,6 +2,8 @@
 import http from "@/utils/http";
 import helpers from "@/utils/helpers";
 import router from "@/router";
+import axios from 'axios';
+import store from "@/store";
 
 export default {
   namespaced: true,
@@ -9,7 +11,7 @@ export default {
     user: null,
     user_role: 0,
     auth_token: null,
-    userTypes: helpers.userTypes()
+    userRoles: helpers.userRoles()
   },
   mutations: {
     SET_USER(state, user) {
@@ -18,8 +20,9 @@ export default {
       helpers.storageSet('user', user);
     },
     SET_AUTH_TOKEN(state, token) {
-      state.token = token;
+      state.auth_token = token;
       helpers.storageSet('auth_token', token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   },
   getters: {},
@@ -27,9 +30,17 @@ export default {
     initAuth({
       commit
     }) {
-      if (helpers.storageGet('auth_token') && helpers.storageGet('user')) {
+      if (helpers.storageGet('auth_token') &&
+        helpers.storageGet('auth_token') != null &&
+        typeof helpers.storageGet('auth_token') != "undefined" &&
+        helpers.storageGet('user') &&
+        helpers.storageGet('user') != null &&
+        typeof helpers.storageGet('user') != "undefined"
+      ) {
         commit('SET_USER', helpers.storageGet('user'));
         commit('SET_AUTH_TOKEN', helpers.storageGet('auth_token'));
+      } else {
+        helpers.storageClear();
       }
     },
 
@@ -44,7 +55,26 @@ export default {
           commit('SET_USER', res.data.user);
           commit('SET_AUTH_TOKEN', res.data.auth_token);
           router.replace({
-            name: 'Home'
+            name: helpers.getRoleHome(res.data.user.role)
+          });
+        }
+      });
+    },
+
+    async register({
+      commit,
+      state
+    }, data) {
+
+      data['device_name'] = helpers.getUA();
+
+      return http.post('/api/register', data).then(res => {
+        if (res.code == 200) {
+          if (state.user != null) return res.data.user;
+          commit('SET_AUTH_TOKEN', res.data.auth_token);
+          commit('SET_USER', res.data.user);
+          router.replace({
+            name: helpers.getRoleHome(res.data.user.role)
           });
         }
       });
@@ -53,16 +83,18 @@ export default {
     async logout({
       commit
     }) {
-      commit('SET_USER', null);
-      commit('SET_AUTH_TOKEN', null);
-      http.get('/api/logout', false);
-      router.replace({
-        name: 'Login'
+      let data = {
+        user_id: store.state.auth.user.id,
+        token: store.state.auth.auth_token
+      };
+
+      return http.post('/api/logout', data).then(() => {
+        commit('SET_USER', null);
+        commit('SET_AUTH_TOKEN', null);
+        router.replace({
+          name: 'Login'
+        });
       });
     },
-
-    async register() {},
-
-    async getUser() {}
   },
 };

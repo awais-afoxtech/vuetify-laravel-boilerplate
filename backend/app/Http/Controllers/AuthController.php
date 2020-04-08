@@ -7,41 +7,51 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            'name' => ['bail', 'required', 'string'],
+            'phone' => ['bail', 'required', 'string', 'unique:users'],
+            'email' => ['bail', 'required', 'string', 'unique:users'],
+            'password' => ['bail', 'required', 'string'],
+            'role' => ['bail', 'required', 'string'],
+            'device_name' => ['bail', 'required', 'string'],
         ]);
 
         if ($validator->fails())
-            return ResponseHelper::validationErrorResponse('some required info is missing.', $validator->errors());
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
 
-        $info =  User::create([
+        $newUser =  User::create([
             'name' => $request['name'],
+            'phone' => $request['phone'],
             'email' => $request['email'],
-            'password' => Hash::make($request['password']),
+            'password' => $request['password'],
+            'role' => Hash::make($request['role']),
         ]);
 
-        return ResponseHelper::successResponse('Account created successfully.', ['user', $info]);
+        $info = [
+            "user" => $newUser,
+            "auth_token" => $newUser->createToken($request->device_name)->plainTextToken
+        ];
+
+        return ResponseHelper::successResponse('Registered successfully.', $info);
     }
 
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'bail|required|exists:users,email',
+            'password' => 'bail|required',
             'device_name' => 'required'
         ]);
 
         if ($validator->fails())
-            return ResponseHelper::validationErrorResponse('some required info is missing.', $validator->errors());
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
 
         $user = User::where('email', $request->username)->first();
 
@@ -50,7 +60,6 @@ class AuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-
 
         $info = [
             "user" => $user,
@@ -62,14 +71,33 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user =  $request->user();
-        $currentTokenId = $user->currentAccessToken()->id;
-        $user->tokens()->where('id', $currentTokenId)->delete();
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'token' => 'required',
+        ]);
+
+        if ($validator->fails())
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
+
+        $user = User::where('id', $request->user_id)->first();
+        $user->tokens()->where('token', $request->token)->delete();
+
+        return ResponseHelper::successResponse('logged out.');
     }
 
     public function logoutFromAll(Request $request)
     {
-        $user =  $request->user();
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'token' => 'required',
+        ]);
+
+        if ($validator->fails())
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
+
+        $user = User::where('id', $request->user_id)->first();
         $user->tokens()->delete();
+
+        return ResponseHelper::successResponse('logged out.');
     }
 }

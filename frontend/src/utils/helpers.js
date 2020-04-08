@@ -9,11 +9,34 @@ class Helper {
         return allRoutes;
     }
 
-    userTypes() {
+    userRoles() {
         return {
-            Guest: 0,
-            Admin: 1,
-            Normal: 2,
+            Guest: {
+                val: 0,
+                homePage: 'Login'
+            },
+            Admin: {
+                val: 1,
+                homePage: 'Home'
+            },
+            Normal: {
+                val: 2,
+                homePage: 'Home'
+            },
+        }
+    }
+
+    getRoleHome(roleVal) {
+        for (const role in this.userRoles()) {
+            if (this.userRoles()[role].val == roleVal)
+                return this.userRoles()[role].homePage;
+        }
+    }
+
+    getRoleName(roleVal) {
+        for (const role in this.userRoles()) {
+            if (this.userRoles()[role].val == roleVal)
+                return role;
         }
     }
 

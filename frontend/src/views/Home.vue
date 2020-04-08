@@ -1,5 +1,9 @@
 <template>
-  <div class="home">Home Page</div>
+  <v-container>
+    <v-card class="fill-height">
+      <div class="home">{{$helpers.getRoleName($store.state.auth.user.role)}} Home Page</div>
+    </v-card>
+  </v-container>
 </template>
 
 <script>

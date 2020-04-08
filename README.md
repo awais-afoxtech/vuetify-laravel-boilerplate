@@ -26,6 +26,12 @@
 
 `$ composer install`
 
+`create new file 'backend\database\database.sqlite'`
+
+`$ php artisan migrate`
+
+`$ php artisan db:seed`
+
 `$ php artisan serve`
 
 - Now Visit
