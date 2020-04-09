@@ -14,6 +14,7 @@
     "roboto-fontface": "^0.10.0",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.1.5",
     "vue-the-mask": "^0.11.1",
     "vuetify": "^2.2.11",

@@ -30,8 +30,8 @@ class AuthController extends Controller
             'name' => $request['name'],
             'phone' => $request['phone'],
             'email' => $request['email'],
-            'password' => $request['password'],
-            'role' => Hash::make($request['role']),
+            'password' => Hash::make($request['password']),
+            'role' => $request['role'],
         ]);
 
         $info = [

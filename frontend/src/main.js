@@ -6,15 +6,21 @@ import vuetify from '@/plugins/vuetify';
 import helpers from '@/utils/helpers';
 import http from '@/utils/http';
 import VueTheMask from 'vue-the-mask';
+const moment = require('moment');
 import '@/utils/mixins';
 import '@/components/global';
 import '@mdi/font/css/materialdesignicons.css';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 
+
+
 Vue.config.productionTip = false;
 Vue.prototype.$helpers = helpers;
 Vue.prototype.$http = http;
 Vue.use(VueTheMask);
+Vue.use(require('vue-moment'), {
+  moment
+});
 
 const initVue = () => {
   return new Vue({

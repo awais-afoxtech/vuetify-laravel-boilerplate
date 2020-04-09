@@ -81,7 +81,7 @@ export default {
             clearable: true,
             type: "password",
             label: "Password",
-            prependIcon: "mdi-password",
+            prependIcon: "mdi-lock",
             rules: [required("Password is required.")],
             flex: 12
           }

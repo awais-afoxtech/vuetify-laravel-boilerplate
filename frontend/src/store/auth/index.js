@@ -69,8 +69,8 @@ export default {
       data['device_name'] = helpers.getUA();
 
       return http.post('/api/register', data).then(res => {
+        console.log('register response', res);
         if (res.code == 200) {
-          if (state.user != null) return res.data.user;
           commit('SET_AUTH_TOKEN', res.data.auth_token);
           commit('SET_USER', res.data.user);
           router.replace({
