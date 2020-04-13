@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   base: process.env.BASE_URL,
-  mode: "history",
+  mode: "hash",
   routes,
 });
 
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
     if (auth.roles.includes(eval(store.state.auth.user_role)))
       next();
     else
-      router.replace({
+      next({
         name: helpers.getRoleHome(store.state.auth.user_role)
       });
   } else {
