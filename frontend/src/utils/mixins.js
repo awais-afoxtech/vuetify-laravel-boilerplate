@@ -63,6 +63,6 @@ var mixin = {
     }
 }
 
-Vue.use(mixin);
+Vue.mixin(mixin);
 
 export default mixin;
