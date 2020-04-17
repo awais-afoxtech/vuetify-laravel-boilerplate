@@ -69,7 +69,6 @@ export default {
       data['device_name'] = helpers.getUA();
 
       return http.post('/api/register', data).then(res => {
-        console.log('register response', res);
         if (res.code == 200) {
           commit('SET_AUTH_TOKEN', res.data.auth_token);
           commit('SET_USER', res.data.user);
@@ -96,5 +95,24 @@ export default {
         });
       });
     },
+
+
+    async forgotPassword({
+      commit
+    }, data) {
+      return http.post('/api/forgot-password', data).then(res => {
+        return res;
+      });
+    },
+
+    async resetPassword({
+      commit
+    }, data) {
+      return http.post('/api/reset-password', data).then(res => {
+        return res;
+      });
+    },
+
+
   },
 };

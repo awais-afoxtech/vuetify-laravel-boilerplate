@@ -4,7 +4,10 @@ import Authentication from '@/views/layouts/Authentication.vue';
 import Main from '@/views/layouts/Main.vue';
 // Auth
 import Login from '@/views/auth/Login.vue';
-import Register from '@/views/auth/Register.vue';
+import AdminRegister from '@/views/auth/AdminRegister.vue';
+import NormalRegister from '@/views/auth/NormalRegister.vue';
+import ForgotPassword from '@/views/auth/ForgotPassword.vue';
+import ResetPassword from '@/views/auth/ResetPassword.vue';
 // Pages
 const Home = () => import( /* webpackChunkName: "home" */ '@/views/Home.vue');
 const About = () => import( /* webpackChunkName: "about" */ '@/views/About.vue');
@@ -56,11 +59,35 @@ const routes = [{
                 }
             },
             {
-                path: "/register",
-                name: "Register",
-                component: Register,
+                path: "/admin-register",
+                name: "AdminRegister",
+                component: AdminRegister,
                 meta: {
                     title: "Register",
+                }
+            },
+            {
+                path: "/normal-register",
+                name: "NormalRegister",
+                component: NormalRegister,
+                meta: {
+                    title: "Register",
+                }
+            },
+            {
+                path: "/forgot-password",
+                name: "ForgotPassword",
+                component: ForgotPassword,
+                meta: {
+                    title: "Forgot Password",
+                }
+            },
+            {
+                path: "/reset-password",
+                name: "ResetPassword",
+                component: ResetPassword,
+                meta: {
+                    title: "Reset Password",
                 }
             }
         ]

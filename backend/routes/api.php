@@ -10,3 +10,9 @@ Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 Route::post('/logout', 'AuthController@logout')->middleware('auth:sanctum');
 Route::post('/logout-from-all', 'AuthController@logoutFromAll')->middleware('auth:sanctum');
+Route::post('/forgot-password', 'AuthController@forgotPassword');
+Route::post('/reset-password', 'AuthController@resetPassword');
+
+Route::group(['middleware' => ['auth:sanctum', 'AdminChecker']], function () {
+    Route::post('/get-users', 'UserController@getUsers');
+});

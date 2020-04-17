@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Func;
 use App\Helpers\ResponseHelper;
+use App\Mail\SendMail;
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -99,5 +102,66 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         return ResponseHelper::successResponse('logged out.');
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'username' => 'bail|required|exists:users,email',
+            ],
+            [
+                'username.exists' => 'user dose not exists'
+            ]
+        );
+
+        if ($validator->fails())
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
+
+        $user = User::where('email', $request->username)->first();
+
+        $code = Str::random(6);
+
+        Func::sendEmail($user->email, $user, 'Password Reset', "", $code);
+
+        // Mail::send('emails.mail', ['code' => $code], function ($message) use ($user) {
+        //     $message->to($user->email)->from('admin@gmail.com', 'App Admin')->subject('Password Reset');
+        // });
+
+        $passwordToken = PasswordReset::create([
+            'email' => $user->email,
+            'token' => $code,
+        ]);
+
+        return ResponseHelper::successResponse('Check your mail.');
+    }
+
+    public function resetPassword(Request $request)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'code' => 'bail|required|exists:password_resets,token',
+                'password' => 'bail|required|confirmed',
+            ],
+            [
+                'code.exists' => 'Invalid code.'
+            ]
+        );
+
+        if ($validator->fails())
+            return ResponseHelper::validationErrorResponse($validator->errors()->first(), $validator->errors());
+
+        $passwordToken = PasswordReset::where('token', $request->code)->first();
+
+        $user = User::where('email', $passwordToken->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        PasswordReset::where('email', $user->email)->delete();
+
+        return ResponseHelper::successResponse('Password updated.');
     }
 }
