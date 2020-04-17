@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar :dense="$vuetify.breakpoint.mdAndDown" app color="blue darken-3" dark>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-0">
-        <span>App</span>
+        <span>{{appName}}</span>
       </v-toolbar-title>
       <v-spacer />
       <v-btn icon>

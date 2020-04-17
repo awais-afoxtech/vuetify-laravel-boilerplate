@@ -5,7 +5,7 @@
       <a
         href="http://afoxtech.com/"
         target="_blank"
-      >AFOXTECH</a>
+      >{{appName}}</a>
     </small>
   </v-footer>
 </template>

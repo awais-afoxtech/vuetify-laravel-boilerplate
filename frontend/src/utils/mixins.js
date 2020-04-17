@@ -4,7 +4,8 @@ var mixin = {
     data() {
         return {
             offsetTop: window.pageYOffset || document.documentElement.scrollTop,
-            is_cordova: process.env.CORDOVA_PLATFORM
+            is_cordova: process.env.CORDOVA_PLATFORM,
+            appName: 'Vuetify Laravel Boilerplate'
         };
     },
     mounted() {
