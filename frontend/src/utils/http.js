@@ -5,7 +5,7 @@ import axios from 'axios';
 import store from '@/store';
 import helpers from '@/utils/helpers';
 
-axios.defaults.baseURL = helpers.baseUrl();
+axios.defaults.baseURL = helpers.apiEndPoint();
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["Content-Type"] = "application/json;charset=utf-8;multipart/form-data";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";

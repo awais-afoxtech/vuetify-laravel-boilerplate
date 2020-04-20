@@ -1,6 +1,5 @@
 import routes from '@/router/routes';
 
-const baseUrl = "http://localhost:8000";
 
 class Helper {
     constructor() {}
@@ -163,8 +162,11 @@ class Helper {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    baseUrl() {
-        return baseUrl;
+
+    apiEndPoint() {
+        return window.location.origin.includes('localhost') ?
+            'http://localhost:8000' :
+            window.location.origin + '/backend/public';
     }
 
 }
