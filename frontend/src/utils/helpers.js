@@ -16,11 +16,11 @@ class Helper {
             },
             Admin: {
                 val: 1,
-                homePage: 'Home'
+                homePage: 'AdminHome'
             },
             Normal: {
                 val: 2,
-                homePage: 'Home'
+                homePage: 'NormalHome'
             },
         }
     }

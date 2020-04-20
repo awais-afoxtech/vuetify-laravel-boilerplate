@@ -13,6 +13,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (!to.name) next({
+    name: 'Login'
+  });
+
   const nearestWithTitle = to.matched
     .slice()
     .reverse()

@@ -9,38 +9,42 @@ import NormalRegister from '@/views/auth/NormalRegister.vue';
 import ForgotPassword from '@/views/auth/ForgotPassword.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
 // Pages
-const Home = () => import( /* webpackChunkName: "home" */ '@/views/Home.vue');
-const About = () => import( /* webpackChunkName: "about" */ '@/views/About.vue');
+const Home = () => import( /* webpackChunkName: "Home" */ '@/views/Home.vue');
 import error404 from '@/views/errors/404.vue';
 
-const isNav = true;
 const routes = [{
-        path: '/',
+        path: '/admin',
         component: Main,
         meta: {
             auth: {
-                roles: [helpers.userRoles().Admin.val, helpers.userRoles().Normal.val],
+                roles: [helpers.userRoles().Admin.val],
             }
         },
         children: [{
-                path: '/',
-                name: 'Home',
-                component: Home,
-                meta: {
-                    isNav,
-                    title: "Home Page",
-                }
-            },
-            {
-                isNav,
-                path: '/about',
-                name: 'About',
-                component: About,
-                meta: {
-                    title: "About Page"
-                },
+            path: 'home',
+            name: 'AdminHome',
+            component: Home,
+            meta: {
+                title: "Home Page"
             }
-        ]
+        }]
+    },
+    {
+        path: '/normal',
+        component: Main,
+        meta: {
+            auth: {
+                roles: [helpers.userRoles().Normal.val],
+            }
+        },
+        children: [{
+            path: 'home',
+            name: 'NormalHome',
+            component: Home,
+            meta: {
+                title: "Home Page",
+            }
+        }]
     },
     {
         path: '/',

@@ -11,12 +11,14 @@ export default {
     user: null,
     user_role: 0,
     auth_token: null,
+    user_role_name: 'Guest',
     userRoles: helpers.userRoles()
   },
   mutations: {
     SET_USER(state, user) {
       state.user = user;
       state.user_role = user == null ? 0 : user.role;
+      state.user_role_name = user == null ? 'Guest' : user.role == 1 ? 'Admin' : 'Normal';
       helpers.storageSet('user', user);
     },
     SET_AUTH_TOKEN(state, token) {
